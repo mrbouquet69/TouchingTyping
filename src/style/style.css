@@ -1,1 +1,281 @@
+/* =========================================================
+   TouchingTyping – style.css
+   ========================================================= */
 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Palette */
+  --bg:           #2d2d2d;
+  --text:         #c8c6c0;
+  --text-dim:     #888680;
+  --text-faint:   #4a4845;
+  --correct:      #d8d6d0;
+  --incorrect:    #c84848;
+  --cursor-col:   #d8d6d0;
+  --green:        #6ab86a;
+  --gold:         #c8a828;
+  --red:          #c84040;
+
+  /* Keyboard */
+  --k-bg:       #2a302a;
+  --k-pinky:    #567a52;
+  --k-ring:     #68a068;
+  --k-middle:   #b89828;
+  --k-index:    #b06868;
+  --k-thumb:    #985858;
+  --k-mod:      #3e4e3a;
+  --k-text:     #d0d0c0;
+
+  /* Key unit */
+  --u: 44px;
+  --gap: 4px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ---- App layout ---- */
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 32px 40px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ---- Top controls ---- */
+.top-controls {
+  position: absolute;
+  top: 22px;
+  right: 32px;
+  display: flex;
+  gap: 6px;
+}
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 17px;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 4px;
+  transition: color .15s;
+  line-height: 1;
+}
+.ctrl-btn:hover { color: var(--text); }
+
+/* ---- Metrics panel ---- */
+.metrics-panel { margin-top: 56px; margin-bottom: 30px; }
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  min-height: 28px;
+  margin-bottom: 8px;
+}
+.metric-label {
+  color: var(--text-dim);
+  min-width: 92px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.metric-item {
+  display: flex;
+  align-items: center;
+  color: var(--text-dim);
+}
+.metric-value { color: var(--text); font-weight: 500; }
+
+.metric-delta { font-size: .82em; }
+.metric-delta.pos { color: var(--green); }
+.metric-delta.neg { color: var(--red);   }
+
+/* All-keys badges */
+.all-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.keys-empty { color: var(--text-faint); font-style: italic; font-size: .9em; }
+
+.key-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+.badge-green { background: var(--green); }
+.badge-gold  { background: var(--gold);  }
+.badge-red   { background: var(--red);   }
+.badge-gray  { background: var(--text-faint); }
+
+#cur-key-badge { width: 30px; height: 30px; font-size: 13px; }
+
+.lr-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  margin-left: 2px;
+}
+
+#acc-desc { color: var(--text-dim); }
+#acc-desc .hl { color: var(--green); font-weight: 500; }
+
+/* Daily goal progress */
+#daily-goal-txt { color: var(--text-dim); min-width: 110px; }
+.progress-wrap {
+  flex: 1;
+  max-width: 340px;
+  height: 7px;
+  background: var(--text-faint);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+/* ---- Typing area ---- */
+.typing-area {
+  height: 112px;      /* ~2 lines of 56px each */
+  overflow: hidden;
+  margin-bottom: 32px;
+  cursor: text;
+  user-select: none;
+}
+.words-display {
+  font-size: 28px;
+  line-height: 2;          /* 56px per line */
+  letter-spacing: .01em;
+  white-space: normal;
+  word-break: break-all;
+  transition: transform .12s ease;
+}
+
+/* Individual character spans */
+.ch { color: var(--text-faint); position: relative; }
+.ch.correct   { color: var(--correct); }
+.ch.incorrect { color: var(--incorrect); }
+.ch.cursor    { color: var(--correct); }
+.ch.cursor::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 1px;
+  height: 2px;
+  background: var(--cursor-col);
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ---- Keyboard container ---- */
+.keyboard-container {
+  display: flex;
+  justify-content: center;
+}
+.keyboard {
+  background: var(--k-bg);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  box-shadow: 0 6px 24px rgba(0,0,0,.55);
+}
+
+/* Keyboard rows */
+.kb-row { display: flex; gap: var(--gap); }
+
+/* Individual keys */
+.key {
+  height: var(--u);
+  min-width: var(--u);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--k-text);
+  position: relative;
+  cursor: default;
+  user-select: none;
+  transition: filter .12s, box-shadow .12s;
+  padding: 2px 4px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.35);
+}
+.key-top {
+  font-size: 9px;
+  line-height: 1;
+  opacity: .75;
+  align-self: flex-end;
+  margin-right: 3px;
+}
+.key-main { font-size: 11px; line-height: 1; }
+.key-wide .key-main { font-size: 10px; }
+
+/* Finger zone colours */
+.zone-pl, .zone-pr { background: var(--k-pinky);  }
+.zone-rl, .zone-rr { background: var(--k-ring);   }
+.zone-ml, .zone-mr { background: var(--k-middle); }
+.zone-il, .zone-ir { background: var(--k-index);  }
+.zone-th            { background: var(--k-thumb);  }
+.zone-mod           { background: var(--k-mod);    }
+
+/* Key widths (1u = var(--u), gap = var(--gap)) */
+.w1   { width: 44px; }
+.w125 { width: 55px; }
+.w150 { width: 66px; }
+.w175 { width: 77px; }
+.w200 { width: 88px; }
+.w225 { width: 99px; }
+.w275 { width: 121px; }
+.wsp  { flex: 1; }    /* space bar */
+
+/* Active (next key to type) */
+.key.key-next {
+  box-shadow: 0 0 0 2px #fff, 0 0 10px rgba(255,255,255,.45), 0 2px 0 rgba(0,0,0,.35);
+  filter: brightness(1.35);
+  z-index: 1;
+}
+
+/* Flash animations */
+@keyframes flash-ok  { 0%{filter:brightness(2.2)} 100%{filter:brightness(1)} }
+@keyframes flash-err { 0%{background:#cc3333}     100%{} }
+
+.key.flash-ok  { animation: flash-ok  .28s ease; }
+.key.flash-err { animation: flash-err .28s ease; }
+
+/* Home-row bump dot */
+.home-bump {
+  position: absolute;
+  bottom: 5px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+}

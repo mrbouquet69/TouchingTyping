@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TouchingTyping</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <div class="app">
 
+    <!-- Top-right controls -->
+    <div class="top-controls">
+      <button class="ctrl-btn" title="Help">?</button>
+      <button class="ctrl-btn" id="btn-restart"  title="Restart">&#8617;</button>
+      <button class="ctrl-btn" id="btn-new"      title="New words">&#8618;</button>
+      <button class="ctrl-btn" id="btn-fs"       title="Fullscreen">&#9634;</button>
+      <button class="ctrl-btn" id="btn-settings" title="Settings">&#9881;</button>
+    </div>
+
+    <!-- Metrics panel -->
+    <div class="metrics-panel">
+
+      <div class="metric-row">
+        <span class="metric-label">Metrics:</span>
+        <span class="metric-item">Speed:&nbsp;<span class="metric-value" id="speed-val">0wpm</span>&nbsp;<span class="metric-delta" id="speed-delta"></span></span>
+        <span class="metric-item">Accuracy:&nbsp;<span class="metric-value" id="acc-val">100%</span>&nbsp;<span class="metric-delta" id="acc-delta"></span></span>
+        <span class="metric-item">Score:&nbsp;<span class="metric-value" id="score-val">0</span>&nbsp;<span class="metric-delta" id="score-delta"></span></span>
+      </div>
+
+      <div class="metric-row">
+        <span class="metric-label">All keys:</span>
+        <div class="all-keys" id="all-keys"><span class="keys-empty">No keys typed yet.</span></div>
+      </div>
+
+      <div class="metric-row">
+        <span class="metric-label">Current key:</span>
+        <span class="key-badge badge-gray" id="cur-key-badge">-</span>
+        <span class="metric-item">Last speed:&nbsp;<span class="metric-value" id="last-speed-val">--</span></span>
+        <span class="metric-item">Top speed:&nbsp;<span class="metric-value"  id="top-speed-val">--</span></span>
+        <span class="metric-item">Learning rate:&nbsp;<span class="metric-value" id="lr-val">--</span>&nbsp;<span class="lr-dot" id="lr-dot"></span></span>
+      </div>
+
+      <div class="metric-row">
+        <span class="metric-label">Accuracy:</span>
+        <span id="acc-desc">Start typing to track your accuracy.</span>
+      </div>
+
+      <div class="metric-row">
+        <span class="metric-label">Daily goal:</span>
+        <span id="daily-goal-txt">0%/30 minutes</span>
+        <div class="progress-wrap"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+
+    </div>
+
+    <!-- Typing area -->
+    <div class="typing-area" id="typing-area">
+      <div class="words-display" id="words-display"></div>
+    </div>
+
+    <!-- 60% keyboard -->
+    <div class="keyboard-container">
+      <div class="keyboard" id="keyboard"></div>
+    </div>
+
+  </div>
+  <script src="js/index.js"></script>
+</body>
+</html>
